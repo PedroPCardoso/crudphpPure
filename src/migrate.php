@@ -45,6 +45,7 @@ try {
                 document VARCHAR(20) NOT NULL,
                 email VARCHAR(255) NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
+                auth_token VARCHAR(255),
                 phone_number VARCHAR(15),
                 birth_date DATE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
