@@ -1,16 +1,9 @@
 <?php
 
-class User
-{
-    public $id;
-    public $first_name;
-    public $last_name;
-    public $document;
-    public $email;
-    public $phone_number;
-    public $birth_date;
-    public $created_at;
-    public $updated_at;
+use Illuminate\Database\Eloquent\Model;
 
-    // Funções para manipular dados do usuário
+class User extends Model
+{
+    protected $table = 'users';
+    protected $fillable = ['first_name', 'last_name', 'document', 'email', 'phone_number', 'birth_date', 'password'];
 }

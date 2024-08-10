@@ -1,7 +1,6 @@
 <?php
 
-require_once 'Models/User.php';
-require_once 'Services/UserService.php';
+require_once __DIR__ . '/../Services/UserService.php';
 
 class UserController
 {
@@ -14,28 +13,47 @@ class UserController
 
     public function index()
     {
-        echo json_encode($this->userService->getAllUsers());
-    }
-
-    public function store()
-    {
-        $data = json_decode(file_get_contents('php://input'), true);
-        $this->userService->createUser($data);
+        $users = $this->userService->getAllUsers();
+        echo json_encode($users);
     }
 
     public function show($id)
     {
-        echo json_encode($this->userService->getUserById($id));
+        $user = $this->userService->getUserById($id);
+        if ($user) {
+            echo json_encode($user);
+        } else {
+            http_response_code(404);
+            echo json_encode(['message' => 'User not found']);
+        }
+    }
+
+    public function store()
+    {
+        $user = $this->userService->createUser($_POST);
+        echo json_encode($user);
     }
 
     public function update($id)
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $this->userService->updateUser($id, $data);
+        $user = $this->userService->updateUser($id, $data);
+        if ($user) {
+            echo json_encode($user);
+        } else {
+            http_response_code(404);
+            echo json_encode(['message' => 'User not found']);
+        }
     }
 
     public function delete($id)
     {
-        $this->userService->deleteUser($id);
+        $deleted = $this->userService->deleteUser($id);
+        if ($deleted) {
+            echo json_encode(['message' => 'User deleted']);
+        } else {
+            http_response_code(404);
+            echo json_encode(['message' => 'User not found']);
+        }
     }
 }
