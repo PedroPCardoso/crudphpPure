@@ -13,7 +13,7 @@ class UserController
 
     public function index()
     {
-        $users = $this->userService->getAllUsers();
+        $users = $this->userService->getAllUsers();        
         echo json_encode($users);
     }
 
@@ -30,8 +30,9 @@ class UserController
 
     public function store()
     {
-        $user = $this->userService->createUser($_POST);
-        echo json_encode($user);
+        $data = json_decode(file_get_contents('php://input'), true);
+        $user = $this->userService->createUser($data);
+        echo json_encode(['status_code'=> 201, 'data' => $user]);
     }
 
     public function update($id)

@@ -13,14 +13,15 @@ class AuthController
 
     public function login()
     {
+        $data = json_decode(file_get_contents('php://input'), true);
 
-        if (!isset($_POST['email']) || !isset($_POST['password'])) {
+        if (!isset($data['email']) || !isset($data['password'])) {
             http_response_code(400);
             echo json_encode(["message" => "Email and password are required"]);
             return;
         }
 
-        $user = $this->authService->validateCredentials($_POST['email'], $_POST['password']);
+        $user = $this->authService->validateCredentials($data['email'], $data['password']);
 
         if ($user) {
             $token = $this->generateToken($user['id']);
