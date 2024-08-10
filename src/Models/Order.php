@@ -1,14 +1,14 @@
 <?php
 
-class Order
-{
-    public $id;
-    public $user_id;
-    public $description;
-    public $quantity;
-    public $price;
-    public $created_at;
-    public $updated_at;
+use Illuminate\Database\Eloquent\Model;
 
-    // Funções para manipular dados de pedidos
+class Order extends Model
+{
+    protected $table = 'orders';
+    protected $fillable = ['user_id', 'description', 'quantity', 'price'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

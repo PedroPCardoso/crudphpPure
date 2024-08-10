@@ -19,8 +19,7 @@ class OrderController
 
     public function store()
     {
-        $data = json_decode(file_get_contents('php://input'), true);
-        $this->orderService->createOrder($data);
+        echo json_encode($this->orderService->createOrder($_POST));
     }
 
     public function show($id)
@@ -30,7 +29,9 @@ class OrderController
 
     public function update($id)
     {
+
         $data = json_decode(file_get_contents('php://input'), true);
+        
         $this->orderService->updateOrder($id, $data);
     }
 
