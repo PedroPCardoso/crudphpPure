@@ -16,9 +16,9 @@ class AuthMiddleware
         $headers = apache_request_headers();
         if (isset($headers['Authorization'])) {
             $token = str_replace('Bearer ', '', $headers['Authorization']);
-            $userId = $this->parseToken($token);
+            $user = $this->userService->getUserByToken($token);
 
-            if ($userId && $this->userService->getUserById($userId)) {
+            if ($user) {
                 return true;
             }
         }
@@ -26,12 +26,5 @@ class AuthMiddleware
         http_response_code(401);
         echo json_encode(["message" => "Unauthorized"]);
         return false;
-    }
-
-    private function parseToken($token)
-    {
-        // Simples decodificação do token (use um método mais seguro em produção)
-        $parts = explode(':', base64_decode($token));
-        return $parts[0] ?? null;
     }
 }

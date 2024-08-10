@@ -1,30 +1,30 @@
 <?php
 
-require_once 'Services/UserService.php';
+require_once 'Services/AuthService.php';
 
 class AuthController
 {
-    private $userService;
+    private $authService;
 
     public function __construct()
     {
-        $this->userService = new UserService();
+        $this->authService = new AuthService();
     }
 
     public function login()
     {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        if (!isset($data['email']) || !isset($data['document'])) {
+        if (!isset($_POST['email']) || !isset($_POST['password'])) {
             http_response_code(400);
-            echo json_encode(["message" => "Email and document are required"]);
+            echo json_encode(["message" => "Email and password are required"]);
             return;
         }
 
-        $user = $this->userService->authenticateUser($data['email'], $data['document']);
+        $user = $this->authService->validateCredentials($_POST['email'], $_POST['password']);
 
         if ($user) {
             $token = $this->generateToken($user['id']);
+            $this->authService->updateUserToken($user['id'], $token); // Atualize o token no banco
             echo json_encode(["token" => $token]);
         } else {
             http_response_code(401);
@@ -34,7 +34,7 @@ class AuthController
 
     private function generateToken($userId)
     {
-        // Gera um token simples. Em produção, use JWT ou outro método seguro
-        return base64_encode($userId . ':' . bin2hex(random_bytes(16)));
+        return bin2hex(random_bytes(32)); // Gera um token seguro
     }
 }
+
