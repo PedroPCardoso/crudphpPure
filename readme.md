@@ -1,13 +1,11 @@
-docker-compose build
 
-docker-compose up -d
+# Projeto PHP Puro
 
-docker-compose exec app bash
+Este projeto é uma aplicação PHP pura que utiliza o Composer para gerenciar dependências e o Eloquent ORM para interações com o banco de dados MySQL. A estrutura do projeto é organizada em diretórios para facilitar a manutenção e o desenvolvimento.
 
+## Estrutura do Projeto
 
-php src/Database/Migrations/CreateOrdersTable.php
-
-
+```plaintext
 project-root/
 │
 ├── src/
@@ -23,14 +21,24 @@ project-root/
 │   ├── Services/
 │   │   ├── UserService.php
 │   │   └── OrderService.php
+│   │   └── AuthService.php
 │   │
 │   ├── Database/
 │   │   ├── Migrations/
-│   │   │   ├── CreateUsersTable.php
-│   │   │   └── CreateOrdersTable.php
+│   │   │   ├── migrate.php
+│   │   │   
 │   │   └── Database.php
+│   ├── tests/
+│   │   ├── OrderTest.php
+│   │   └── UserTest.php
+│   │   
 │   │
 │   ├── api.php
 │   └── index.php
 │
 └── docker-compose.yml
+
+
+make -f build.mk build
+docker compose exec app php Database/Migrations/migrate.php
+make -f build.mk test
