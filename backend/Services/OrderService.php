@@ -14,8 +14,11 @@ class OrderService
      *
      * @return array
      */
-    public function getAllOrders(): array
+    public function getAllOrders(int $id=null): array
     {
+        if($id) {
+            return Order::where('user_id', $id)->get()->toArray();
+        }
         return Order::all()->toArray();
     }
 

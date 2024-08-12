@@ -25,7 +25,8 @@ class OrderController
      */
     public function index(): void
     {
-        $orders = $this->orderService->getAllOrders();
+        $user_id = $_GET['user_id'] ?? null;
+        $orders = $this->orderService->getAllOrders($user_id);
         echo json_encode(['status_code' => 200, 'data' => $orders]);
     }
 

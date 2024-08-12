@@ -1,6 +1,14 @@
 <template>
     <div>
         <h2>Orders</h2>
+        <label for="userFilter">Filter by User:</label>
+        <select id="userFilter" v-model="selectedUser" @change="fetchOrders">
+            <option value="">All Users</option>
+            <option v-for="user in users" :key="user.id" :value="user.id">
+                {{ user.first_name }} {{ user.last_name }}
+            </option>
+        </select>
+
         <button @click="createOrder">Create Order</button>
         <ul>
             <li v-for="order in orders" :key="order.id">
@@ -16,16 +24,40 @@
 export default {
     data() {
         return {
-            orders: []
+            orders: [],
+            users: [],
+            selectedUser: ''  
         };
     },
     async created() {
-        this.fetchOrders();
+        this.fetchUsers();  
+        this.fetchOrders(); 
     },
     methods: {
+        async fetchUsers() {
+            try {
+                const response = await fetch('http://localhost:8000/users', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+                if (response.ok) {
+                    let data = await response.json();
+                    this.users = data['data'];
+                }
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        },
         async fetchOrders() {
             try {
-                const response = await fetch('http://localhost:8000/orders', {
+                let url = 'http://localhost:8000/orders';
+
+                if (this.selectedUser) {
+                    url += `?user_id=${this.selectedUser}`; // Adiciona o filtro de usuário à URL
+                }
+
+                const response = await fetch(url, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     }
@@ -35,11 +67,11 @@ export default {
                     this.orders = data['data'];
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error fetching orders:', error);
             }
         },
         createOrder() {
-            // Logic to create a new order
+            this.$router.push({ path: `/create-order` });
         },
         editOrder(orderId) {
             this.$router.push({ path: `/edit-order/${orderId}` });
@@ -54,10 +86,9 @@ export default {
                 });
                 this.fetchOrders();
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error deleting order:', error);
             }
         }
     }
 };
 </script>
-
