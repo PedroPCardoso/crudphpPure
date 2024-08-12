@@ -45,3 +45,33 @@ project-root/
 make -f build.mk build
 docker compose exec app php Database/Migrations/migrate.php
 make -f build.mk test
+```
+## Usuário Admin
+
+email: admin@example.com
+password: adminpassword
+
+## Proximos passos
+
+* Validação da autenticação para acessar as rotas do front
+
+* Validação dos dados enviados nas rotas
+
+* Mostrar somente as ordens pertencentes ao usuário logado
+
+* Criptografar os dados sensiveis dos usuários
+
+* Filtros no front e no back com relação as ordens e usuários.
+
+* Paginação de usuários e ordens.
+
+* Front mais bem estruturado
+
+## Decisões
+
+* Para ser mais rápido utilizei o vue no front para criar a aplicação.
+
+* No back utilizei somente o ORM e criei um middleware mais simples, acredito que há outras libs mais seguras para autenticação e segurança.
+
+
+
