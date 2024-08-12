@@ -37,8 +37,11 @@ project-root/
 │   └── index.php
 │
 └── docker-compose.yml
+```
 
+## Comandos para subir o projeto
 
+```plaintext
 make -f build.mk build
 docker compose exec app php Database/Migrations/migrate.php
 make -f build.mk test
