@@ -16,6 +16,7 @@ class UserService
 
     public function createUser($data)
     {
+        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
         return User::create($data);
     }
 

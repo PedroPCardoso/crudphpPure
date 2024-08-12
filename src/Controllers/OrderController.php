@@ -14,29 +14,35 @@ class OrderController
 
     public function index()
     {
-        echo json_encode($this->orderService->getAllOrders());
+        echo json_encode(['status_code' => 200, 'data' => $this->orderService->getAllOrders()]);
     }
 
     public function store()
     {
-        echo json_encode($this->orderService->createOrder($_POST));
+        $data = json_decode(file_get_contents('php://input'), true);
+       
+        $order = $this->orderService->createOrder($data);
+        echo json_encode(['status_code' => 201, 'data' => $order]);
+
     }
 
     public function show($id)
     {
-        echo json_encode($this->orderService->getOrderById($id));
+        $order = $this->orderService->getOrderById($id);
+        echo json_encode(['status_code' => 200, 'data' => $order]);
     }
 
     public function update($id)
     {
-
         $data = json_decode(file_get_contents('php://input'), true);
-        
-        $this->orderService->updateOrder($id, $data);
+        $order = $this->orderService->updateOrder($id, $data);
+        echo json_encode(['status_code' => 200, 'data' => $order]);
+
     }
 
     public function delete($id)
     {
         $this->orderService->deleteOrder($id);
+        echo json_encode(['status_code' => 204, 'message' => 'Order deleted']);
     }
 }

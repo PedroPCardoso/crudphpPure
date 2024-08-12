@@ -14,14 +14,14 @@ class UserController
     public function index()
     {
         $users = $this->userService->getAllUsers();        
-        echo json_encode($users);
+        echo json_encode(['status_code' => 200, 'data' => $users]);
     }
 
     public function show($id)
     {
         $user = $this->userService->getUserById($id);
         if ($user) {
-            echo json_encode($user);
+            echo json_encode(['status_code' => 200, 'data' => $user]);
         } else {
             http_response_code(404);
             echo json_encode(['message' => 'User not found']);
@@ -40,7 +40,7 @@ class UserController
         $data = json_decode(file_get_contents('php://input'), true);
         $user = $this->userService->updateUser($id, $data);
         if ($user) {
-            echo json_encode($user);
+            echo json_encode(['status_code' => 200, 'data' => $user]);
         } else {
             http_response_code(404);
             echo json_encode(['message' => 'User not found']);
@@ -51,7 +51,7 @@ class UserController
     {
         $deleted = $this->userService->deleteUser($id);
         if ($deleted) {
-            echo json_encode(['message' => 'User deleted']);
+            echo json_encode(['status_code' => 204, 'message' => 'User deleted']);
         } else {
             http_response_code(404);
             echo json_encode(['message' => 'User not found']);

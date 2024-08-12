@@ -21,7 +21,7 @@ class OrderService
 
     public function getOrderById($id)
     {
-        return Order::find($id); // Encontra um pedido pelo ID
+        return Order::find($id); 
     }
 
     public function updateOrder($id, $data)
@@ -29,8 +29,7 @@ class OrderService
         $order = Order::find($id); // Encontra o pedido
         if ($order) {
             $order->update($data); // Atualiza os dados do pedido
-            echo json_encode($order->toArray());
-
+            return $order->toArray();
         }
     }
 
