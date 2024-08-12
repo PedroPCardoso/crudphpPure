@@ -8,7 +8,7 @@ Este projeto é uma aplicação PHP pura que utiliza o Composer para gerenciar d
 ```plaintext
 project-root/
 │
-├── src/
+├── backend/
 │   ├── Controllers/
 │   │   ├── UserController.php
 │   │   ├── OrderController.php

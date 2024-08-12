@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./src:/var/www/html
+      - ./backend:/var/www/html
       - ./php.ini:/usr/local/etc/php/conf.d/php.ini
     depends_on:
       - db

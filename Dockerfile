@@ -22,7 +22,7 @@ COPY php.ini /usr/local/etc/php/
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copiar o arquivo composer.json para o container
-COPY ./composer.json /var/www/html/
+COPY ./backend/composer.json /var/www/html/
 
 # Instalar dependências do Composer no container
 RUN composer install --no-interaction --no-scripts --no-plugins
