@@ -46,7 +46,8 @@ export default {
                     }
                 });
                 if (response.ok) {
-                    this.order = await response.json();
+                    let data = await response.json();
+                    this.order = data['data'];
                 }
             } catch (error) {
                 console.error('Error:', error);

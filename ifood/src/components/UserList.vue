@@ -31,7 +31,8 @@ export default {
                     }
                 });
                 if (response.ok) {
-                    this.users = await response.json();
+                    let data = await response.json();
+                    this.users = data['data'];
                 }
             } catch (error) {
                 console.error('Error:', error);
