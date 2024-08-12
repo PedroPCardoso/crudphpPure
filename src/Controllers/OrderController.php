@@ -5,42 +5,75 @@ require_once 'Services/OrderService.php';
 
 class OrderController
 {
+    /**
+     * @var OrderService
+     */
     private $orderService;
 
+    /**
+     * Construtor da classe OrderController.
+     */
     public function __construct()
     {
         $this->orderService = new OrderService();
     }
 
-    public function index()
+    /**
+     * Retorna todos os pedidos.
+     *
+     * @return void
+     */
+    public function index(): void
     {
-        echo json_encode(['status_code' => 200, 'data' => $this->orderService->getAllOrders()]);
+        $orders = $this->orderService->getAllOrders();
+        echo json_encode(['status_code' => 200, 'data' => $orders]);
     }
 
-    public function store()
+    /**
+     * Cria um novo pedido.
+     *
+     * @return void
+     */
+    public function store(): void
     {
         $data = json_decode(file_get_contents('php://input'), true);
-       
+
         $order = $this->orderService->createOrder($data);
         echo json_encode(['status_code' => 201, 'data' => $order]);
-
     }
 
-    public function show($id)
+    /**
+     * Exibe os detalhes de um pedido específico.
+     *
+     * @param int $id ID do pedido.
+     * @return void
+     */
+    public function show(int $id): void
     {
         $order = $this->orderService->getOrderById($id);
         echo json_encode(['status_code' => 200, 'data' => $order]);
     }
 
-    public function update($id)
+    /**
+     * Atualiza os detalhes de um pedido específico.
+     *
+     * @param int $id ID do pedido.
+     * @return void
+     */
+    public function update(int $id): void
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $order = $this->orderService->updateOrder($id, $data);
         echo json_encode(['status_code' => 200, 'data' => $order]);
-
     }
 
-    public function delete($id)
+    /**
+     * Exclui um pedido específico.
+     *
+     * @param int $id ID do pedido.
+     * @return void
+     */
+    public function delete(int $id): void
     {
         $this->orderService->deleteOrder($id);
         echo json_encode(['status_code' => 204, 'message' => 'Order deleted']);

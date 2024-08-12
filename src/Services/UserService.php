@@ -4,33 +4,64 @@ require_once __DIR__ . '/../Models/User.php';
 
 class UserService
 {
-    public function getAllUsers()
+    /**
+     * Retorna todos os usuários.
+     *
+     * @return array
+     */
+    public function getAllUsers(): array
     {
-        return User::all();
+        return User::all()->toArray();
     }
 
-    public function getUserById($id)
+    /**
+     * Retorna um usuário pelo ID.
+     *
+     * @param int $id ID do usuário.
+     * @return array|null
+     */
+    public function getUserById(int $id): ?array
     {
-        return User::find($id);
+        $user = User::find($id);
+        return $user ? $user->toArray() : null;
     }
 
-    public function createUser($data)
+    /**
+     * Cria um novo usuário.
+     *
+     * @param array $data Dados para criar um novo usuário.
+     * @return array
+     */
+    public function createUser(array $data): array
     {
         $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-        return User::create($data);
+        return User::create($data)->toArray();
     }
 
-    public function updateUser($id, $data)
+    /**
+     * Atualiza um usuário pelo ID.
+     *
+     * @param int $id ID do usuário.
+     * @param array $data Dados atualizados do usuário.
+     * @return array|null
+     */
+    public function updateUser(int $id, array $data): ?array
     {
         $user = User::find($id);
         if ($user) {
             $user->update($data);
-            return $user;
+            return $user->toArray();
         }
         return null;
     }
 
-    public function deleteUser($id)
+    /**
+     * Deleta um usuário pelo ID.
+     *
+     * @param int $id ID do usuário.
+     * @return bool
+     */
+    public function deleteUser(int $id): bool
     {
         $user = User::find($id);
         if ($user) {
@@ -39,9 +70,16 @@ class UserService
         }
         return false;
     }
-    
-    public function getUserByToken($token)
+
+    /**
+     * Retorna um usuário pelo token de autenticação.
+     *
+     * @param string $token Token de autenticação do usuário.
+     * @return array|null
+     */
+    public function getUserByToken(string $token): ?array
     {
-        return User::where('auth_token', $token)->first();
+        $user = User::where('auth_token', $token)->first();
+        return $user ? $user->toArray() : null;
     }
 }

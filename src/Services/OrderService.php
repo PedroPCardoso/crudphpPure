@@ -6,38 +6,70 @@ class OrderService
 {
     public function __construct()
     {
-        Database::getInstance(); // Certifique-se de que o Eloquent está configurado
+        Database::getInstance();
     }
 
-    public function getAllOrders()
+    /**
+     * Retorna todos os pedidos.
+     *
+     * @return array
+     */
+    public function getAllOrders(): array
     {
-        return Order::all(); // Retorna todos os pedidos
+        return Order::all()->toArray();
     }
 
-    public function createOrder($data)
+    /**
+     * Cria um novo pedido.
+     *
+     * @param array $data Dados para criar um novo pedido.
+     * @return array
+     */
+    public function createOrder(array $data): array
     {
-        return Order::create($data); // Cria um novo pedido
+        return Order::create($data)->toArray();
     }
 
-    public function getOrderById($id)
+    /**
+     * Retorna um pedido pelo ID.
+     *
+     * @param int $id ID do pedido.
+     * @return array|null
+     */
+    public function getOrderById(int $id): ?array
     {
-        return Order::find($id); 
+        $order = Order::find($id);
+        return $order ? $order->toArray() : null;
     }
 
-    public function updateOrder($id, $data)
+    /**
+     * Atualiza um pedido pelo ID.
+     *
+     * @param int $id ID do pedido.
+     * @param array $data Dados atualizados do pedido.
+     * @return array|null
+     */
+    public function updateOrder(int $id, array $data): ?array
     {
-        $order = Order::find($id); // Encontra o pedido
+        $order = Order::find($id);
         if ($order) {
-            $order->update($data); // Atualiza os dados do pedido
+            $order->update($data);
             return $order->toArray();
         }
+        return null;
     }
 
-    public function deleteOrder($id)
+    /**
+     * Deleta um pedido pelo ID.
+     *
+     * @param int $id ID do pedido.
+     * @return void
+     */
+    public function deleteOrder(int $id): void
     {
-        $order = Order::find($id); // Encontra o pedido
+        $order = Order::find($id);
         if ($order) {
-            $order->delete(); // Deleta o pedido
+            $order->delete();
         }
     }
 }

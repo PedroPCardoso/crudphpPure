@@ -4,14 +4,19 @@ require_once 'Services/AuthService.php';
 
 class AuthController
 {
-    private $authService;
+    private AuthService $authService;
 
     public function __construct()
     {
         $this->authService = new AuthService();
     }
 
-    public function login()
+    /**
+     * Realiza o login do usuário.
+     *
+     * @return void
+     */
+    public function login(): void
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -24,8 +29,8 @@ class AuthController
         $user = $this->authService->validateCredentials($data['email'], $data['password']);
 
         if ($user) {
-            $token = $this->generateToken($user['id']);
-            $this->authService->updateUserToken($user['id'], $token); // Atualize o token no banco
+            $token = $this->generateToken($user->id);
+            $this->authService->updateUserToken($user->id, $token); // Atualiza o token no banco
             echo json_encode(["token" => $token]);
         } else {
             http_response_code(401);
@@ -33,9 +38,16 @@ class AuthController
         }
     }
 
-    private function generateToken($userId)
+    /**
+     * Gera um token seguro para o usuário.
+     *
+     * @param int $userId O ID do usuário.
+     * @return string O token gerado.
+     */
+    private function generateToken(int $userId): string
     {
         return bin2hex(random_bytes(32)); // Gera um token seguro
     }
 }
+
 

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../App.vue'
 import Users from '../views/Users.vue'
 import Orders from '../views/Orders.vue'
 import Login from '../components/Login.vue'
@@ -9,15 +8,10 @@ import OrderForm from '../components/OrderForm.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-      {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'login',
+      component: Login
     },
     {
       path: '/users',
