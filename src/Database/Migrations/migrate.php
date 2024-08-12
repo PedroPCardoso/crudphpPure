@@ -90,7 +90,20 @@ try {
                 'phone_number' => '1234567890',
                 'birth_date' => '1980-01-01'
             ]);
+            $adminUserId = $db->lastInsertId();
 
+            // Inserindo um pedido para o usuário admin
+            $stmt = $db->prepare("
+            INSERT INTO orders (user_id, description, quantity, price)
+            VALUES (:user_id, :description, :quantity, :price)
+            ");
+            $stmt->execute([
+                'user_id' => $adminUserId,
+                'description' => 'Pedido de exemplo para o usuário admin',
+                'quantity' => 1,
+                'price' => 99.99
+            ]);
+            
             echo "Admin user created successfully.\n";  
         }
         else {

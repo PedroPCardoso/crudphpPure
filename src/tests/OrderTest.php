@@ -57,7 +57,7 @@ class OrderApiTest extends TestCase
     {
         $this->assertNotNull($this->orderId, 'O orderId deve estar definido');     
         $response = $this->makeRequest('PUT', "/orders/{$this->orderId}", [
-            'product_name' => 'Updated Product',
+            'product_name' => 'Updated Order',
             'quantity' => 3,
             'price' => 249.99
         ], $this->token);
@@ -91,7 +91,6 @@ class OrderApiTest extends TestCase
         }
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($ch);
-
         curl_close($ch);
 
         return json_decode($response, true);
