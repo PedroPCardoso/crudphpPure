@@ -2,21 +2,24 @@
 
 use PHPUnit\Framework\TestCase;
 
-class ApiTest extends TestCase
+class UserTest extends TestCase
 {
     private $baseUrl = 'http://localhost:8000';
-    private $token= 'a8b606d2d54c6c43dd0eabc7663bf78ed46e7fab51a947e961198ce3027ef8a8';
-    // public function testLogin()
-    // {
-    //     $response = $this->makeRequest('POST', '/login', ['email' => 'admin@example.com', 'password' => 'adminpassword']);
-    //     $this->token = $response['token'];
-    //     $this->assertArrayHasKey('token', $response);
-    // }
+    private $token;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $response = $this->makeRequest('POST', '/login', ['email' => 'admin@example.com', 'password' => 'adminpassword']);
+        $this->token = $response['token'];
+    }
 
     public function testListUsers()
     {
         $response = $this->makeRequest('GET', '/users', [], $this->token);
-        $this->assertIsArray($response);
+        $this->assertEquals(200, $response['status_code']);
+        $this->assertIsArray($response['data']);
     }
 
     public function testCreateUser()
@@ -59,7 +62,6 @@ class ApiTest extends TestCase
 
     private function generateRandomEmail()
     {
-        // Função para gerar uma string aleatória de caracteres
         function generateRandomString($length = 10)
         {
             $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
