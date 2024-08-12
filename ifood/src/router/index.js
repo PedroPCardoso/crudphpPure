@@ -31,6 +31,8 @@ const router = createRouter({
     },
     { path: '/edit-user/:id', component: UserForm },
     { path: '/edit-order/:id', component: OrderForm },
+    { path: '/create-user/', component: UserForm },
+    { path: '/create-order/', component: OrderForm },
     {
       path: '/about',
       name: 'about',

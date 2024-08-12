@@ -15,6 +15,11 @@
                 <input type="email" v-model="user.email" required />
             </div>
             <div class="form-group">
+                <label for="last_name">Document:</label>
+                <input type="text" v-model="user.document" required />
+            </div>
+
+            <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" v-model="user.password" />
             </div>
@@ -31,6 +36,7 @@ export default {
             user: {
                 first_name: '',
                 last_name: '',
+                document: '',
                 email: '',
                 password: ''
             }
